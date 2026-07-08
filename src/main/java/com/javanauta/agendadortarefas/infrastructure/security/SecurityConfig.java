@@ -25,22 +25,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Inicializa o filtro customizado do JWT
         JwtRequestFilter jwtRequestFilter = new JwtRequestFilter(jwtUtil, userDetailsService);
 
         http
-                .csrf(AbstractHttpConfigurer::disable) // Desativa proteção CSRF para APIs REST
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        // 1. Endpoints Públicos (Acesso livre sem Token)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Define a API como Stateless
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                // Injeta o filtro do JWT antes do filtro padrão de autenticação por usuário/senha
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-}
+    } // Fechamento do método adicionado corretamente
+} // Fechamento da classe adicionado corretamente}
